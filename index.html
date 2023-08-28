@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa%20Slab%20One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Yesteryear">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Concert%20One">
+    <link rel = "stylesheet" href="./style.css">
+    <title>Bingo Rush</title>
+</head>
+<body>
+    <h1 class="bingo-rush">
+        <span id="bingo">
+            <span id="b">B</span><span id="i">I</span><span id="n">N</span><span id="g">G</span><span id="o">O</span>
+        </span><span id="rush">Rush</span>
+    </h1>
+    <button class="start-button" onclick={getCard()}>Start Game</button>
+    <button class="play-button hidden" onclick={checkIfReady()}>Play</button>
+    <button class="draw-button hidden" onclick={drawNumber()}>Draw</button>
+    <div class="bingo-card hidden">
+        <div class="card-header">BINGO</div>
+        <div class="row" id="row-1">
+            <div class="row-items" id="box-1"></div>
+            <div class="row-items" id="box-2"></div>
+            <div class="row-items" id="box-3"></div>
+            <div class="row-items" id="box-4"></div>
+            <div class="row-items" id="box-5"></div>
+        </div>
+        <div class="row" id="row-2">
+            <div class="row-items" id="box-6"></div>
+            <div class="row-items" id="box-7"></div>
+            <div class="row-items" id="box-8"></div>
+            <div class="row-items" id="box-9"></div>
+            <div class="row-items" id="box-10"></div>
+        </div>
+        <div class="row" id="row-3">
+            <div class="row-items" id="box-11"></div>
+            <div class="row-items" id="box-12"></div>
+            <div class="row-items" id="box-13"></div>
+            <div class="row-items" id="box-14"></div>
+            <div class="row-items" id="box-15"></div>
+        </div>
+        <div class="row" id="row-4">
+            <div class="row-items" id="box-16"></div>
+            <div class="row-items" id="box-17"></div>
+            <div class="row-items" id="box-18"></div>
+            <div class="row-items" id="box-19"></div>
+            <div class="row-items" id="box-20"></div>
+        </div>
+        <div class="row" id="row-5">
+            <div class="row-items" id="box-21"></div>
+            <div class="row-items" id="box-22"></div>
+            <div class="row-items" id="box-23"></div>
+            <div class="row-items" id="box-24"></div>
+            <div class="row-items" id="box-25"></div>
+        </div>
+    </div>
+    <div class="probability hidden">
+        <h4>Select Your Probability:</h4>
+        <input type="radio" name="probability" id="common-40" class="probability-choice" value="40">
+        <label for="common-40">Common (40 draws)</label>
+        <input type="radio" name="probability" id="uncommon-30" class="probability-choice" value="30">
+        <label for="uncommon-30">Uncomon (30 draws)</label>
+        <input type="radio" name="probability" id="rare-20" class="probability-choice" value="20">
+        <label for="rare-20">Rare (20 draws)</label>
+        <input type="radio" name="probability" id="vrare-10" class="probability-choice" value="10">
+        <label for="vrare-10">Very Rare (10 draws)</label>
+        <input type="radio" name="probability" id="epic-5" class="probability-choice" value="5">
+        <label for="epic-5">Epic (5 draws)</label>
+        <h4 class="warning hidden">Please select a probability before proceeding.</h4>
+    </div>
+    <div class="counter hidden"></div>
+    <div class="result hidden"></div>
+</body>
+<script src = "app.js"></script>
+</html>
