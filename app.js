@@ -1,3 +1,70 @@
+const ContractAddress = "0xEb0da51bB46BA5f25cAe99bD057f739d29E65815";
+const ContractABI = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "ID",
+				"type": "uint256"
+			}
+		],
+		"name": "gameID",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "deposit",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "ID",
+				"type": "uint256"
+			}
+		],
+		"name": "payout",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "enum BingoBettingSystem.Probability",
+				"name": "probability",
+				"type": "uint8"
+			}
+		],
+		"name": "placeBet",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+
+let contract;
+let signer;
+
+const provider = new ethers.providers.Web3Provider(window.ethereum, 80001);
+
 const header = document.querySelector('.bingo-rush');
 const startButton = document.querySelector('.start-button');
 const card = document.querySelector('.bingo-card');
@@ -14,13 +81,32 @@ let bingoCard;
 let box = [];
 let numOfDraws;
 let marker;
-let bingo;
 let numbers = [];
 let counter;
 let drawnNumbers;
 let resultString;
+let gameID;
 
+getProviderOrSigner();
 setBoxes();
+
+async function getProviderOrSigner() {
+	provider.send("eth_requestAccounts", []).then(() => {
+		provider.listAccounts().then((accounts) => {
+			signer = provider.getSigner(accounts[0]);
+			contract = new ethers.Contract(
+				ContractAddress,
+				ContractABI,
+				signer
+			);
+			contract.on("gameID", (ID) => {
+				gameID = ID;
+            });
+		});
+	});
+}
+
+
 
 function setBoxes() {
     for (let counter = 0; counter < 25; counter++) {
@@ -123,7 +209,36 @@ function checkIfReady() {
     else play();
 }
 
+async function placeBet(numOfDraws){
+    let probability;
+    switch(numOfDraws) {
+        case 40: 
+            probability = 0;
+            break;
+        case 30: 
+            probability = 1;
+            break;
+        case 20: 
+            probability = 2;
+            break;
+        case 10: 
+            probability = 3;
+            break;
+        case 5: 
+            probability = 4;
+            break;
+    }
+    try{
+        const msgValue = 10000000000000000; // 0.01 MATIC
+        await contract.placeBet({ value: msgValue }, probability);
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
 function play() {
+    placeBet(numOfDraws);
     probability.classList.toggle('hidden');
     playButton.classList.toggle('hidden');
     drawButton.classList.toggle('hidden');
@@ -141,7 +256,6 @@ function play() {
     ];
 
     counter = 0;
-    bingo = false;
 
     drawCounter.innerText = `Draws Left: ${numOfDraws - counter}`;
     resultString = 'Drawn Numbers: ';
@@ -151,6 +265,7 @@ function play() {
 function drawNumber() {
     let index = generateNumber(0, 74 - counter);
     let draw = numbers[index];
+    let bingo = false;
     numbers.splice(index, 1);
     if (draw <= 15) {
         for(let i = 0; i < 5; i++) if (draw == bingoCard[0][i]) {
@@ -192,8 +307,20 @@ function drawNumber() {
         drawButton.classList.toggle('hidden');
         if (bingo == true) {
             result.innerHTML += `<br><br><div class="bingo-indicator">BINGO!</div>`;
+            payout(gameID);
         }
         result.innerHTML += '<br><br><button onclick={startOver()}>Try Again</button>'
+    }
+}
+
+async function payout(gameID) {
+    try {
+        let payout = await contract.payout(gameID);
+        console.log(payout);
+        await payout;
+    }
+    catch(error) {
+        console.error(error);
     }
 }
 

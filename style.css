@@ -166,6 +166,10 @@ button:hover {
      color: #fa9703;
 }
 
+small {
+    font-size: 12px;
+}
+
 .marked {
     background-color: #fc0909f6;
     color: white;

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Yesteryear">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Concert%20One">
     <link rel = "stylesheet" href="./style.css">
+    <script src="https://cdn.ethers.io/scripts/ethers-v4.min.js" charset="utf-8" type="text/javascript"></script>
     <title>Bingo Rush</title>
 </head>
 <body>
@@ -59,15 +60,15 @@
     <div class="probability hidden">
         <h4>Select Your Probability:</h4>
         <input type="radio" name="probability" id="common-40" class="probability-choice" value="40">
-        <label for="common-40">Common (40 draws)</label>
+        <label for="common-40">Common (40 draws)<br><small>(Payout is 150% of bet amount)</small></label>
         <input type="radio" name="probability" id="uncommon-30" class="probability-choice" value="30">
-        <label for="uncommon-30">Uncomon (30 draws)</label>
+        <label for="uncommon-30">Uncomon (30 draws)<br><small>(Payout is 200% of bet amount)</small></label>
         <input type="radio" name="probability" id="rare-20" class="probability-choice" value="20">
-        <label for="rare-20">Rare (20 draws)</label>
+        <label for="rare-20">Rare (20 draws)<br><small>(Payout is 300% of bet amount)</small></label>
         <input type="radio" name="probability" id="vrare-10" class="probability-choice" value="10">
-        <label for="vrare-10">Very Rare (10 draws)</label>
+        <label for="vrare-10">Very Rare (10 draws)<br><small>(Payout is 500% of bet amount)</small></label>
         <input type="radio" name="probability" id="epic-5" class="probability-choice" value="5">
-        <label for="epic-5">Epic (5 draws)</label>
+        <label for="epic-5">Epic (5 draws)<br><small>(Payout is 1000% of bet amount)</small></label>
         <h4 class="warning hidden">Please select a probability before proceeding.</h4>
     </div>
     <div class="counter hidden"></div>
